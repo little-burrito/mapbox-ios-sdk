@@ -1032,6 +1032,42 @@
     [self completeMoveEventAfterDelay:0];
 }
 
+- (void)cqUpdateAnnotationPositions
+{
+	[self completeMoveEventAfterDelay:0 ];
+	[self completeZoomEventAfterDelay:0 ];
+}
+- (void)cqAnimatedMove:(CGSize)delta duration:(float)duration
+{
+    [self registerMoveEventByUser:NO];
+	
+	[UIView animateWithDuration:duration animations:^{
+		CGPoint contentOffset = _mapScrollView.contentOffset;
+		contentOffset.x += delta.width;
+		contentOffset.y += delta.height;
+		_mapScrollView.contentOffset = contentOffset;
+		RMProjectedRect projectedBounds = [ self projectedBounds ];
+		projectedBounds.origin.x += delta.width;
+		projectedBounds.origin.y += delta.height;
+		[ self setProjectedBounds:projectedBounds animated:true ];
+	} completion:nil];
+	
+    [self completeMoveEventAfterDelay:0];
+}
+- (void)cqAnimatedZoom:(float)zoom duration:(float)duration
+{
+	[UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationCurveEaseInOut animations:^{
+		[self setZoom:zoom];
+		[self setCenterCoordinate:self.centerCoordinate animated:NO];
+	} completion:nil];
+}
+- (void)cqCancelAnimation {
+	[_mapScrollView.layer removeAllAnimations];
+	[self completeMoveEventAfterDelay:0];
+	[self completeZoomEventAfterDelay:0];
+}
+
+
 #pragma mark -
 #pragma mark Zoom
 
