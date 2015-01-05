@@ -198,6 +198,19 @@ typedef enum : NSUInteger {
 *   @param delta A `CGSize` by which to move the map center. */
 - (void)moveBy:(CGSize)delta;
 
+/** Animated movement by Cirqle AB **/
+/*	@param delta A `CGSize` by which to move the map center.
+*	@param duration A `float` describing the duration of the animation. */
+- (void)cqAnimatedMove:(CGSize)delta duration:(float)duration;
+
+/** Animated movement by Cirqle AB **/
+/*   @param zoom The desired zoom level.
+*   @param duration Duration of the animation. */
+- (void)cqAnimatedZoom:(float)zoom duration:(float)duration;
+
+/** Cancel animated movement by Cirqle AB **/
+- (void)cqCancelAnimation;
+
 #pragma mark - Zoom
 
 /** @name Zooming the Map */
